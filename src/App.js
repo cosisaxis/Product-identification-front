@@ -3,13 +3,14 @@ import React, { useState, useEffect } from "react";
 import Web3 from "web3";
 import { productAbi } from "./constants";
 
-function App() {
+function App({ onProductSent }) {
   const [web3, setWeb3] = useState(null);
   const [productContract, setProductContract] = useState(null);
   const [brand, setBrand] = useState("");
   const [item, setItem] = useState("");
   const [year, setYear] = useState(0);
   const [barcode, setBarcode] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const initWeb3 = async () => {
@@ -41,26 +42,42 @@ function App() {
     }
   }, [web3]);
 
-  const handleCreateOrUpdateRecord = async () => {
+  // const handleCreateOrUpdateRecord = async () => {
+  //   try {
+  //     await productContract.methods
+  //       .createOrUpdateRecord(brand, item, year, barcode)
+  //       .send({ from: window.ethereum.selectedAddress });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  // const handleGetRecord = async () => {
+  //   try {
+  //     const record = await productContract.methods
+  //       .getRecord(window.ethereum.selectedAddress)
+  //       .call();
+  //     setBrand(record.brand);
+  //     setItem(record.item);
+  //     setYear(record.year);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const handleSubmitProduct = async () => {
+    setIsSubmitting(true);
+    const contractAddress = "0xf616859233bBA7d5B3aBED50Fb604b56D88Bf372";
+
     try {
       await productContract.methods
         .createOrUpdateRecord(brand, item, year, barcode)
-        .send({ from: window.ethereum.selectedAddress });
+        .send({ from: contractAddress });
+      setIsSubmitting(false);
+      onProductSent();
     } catch (error) {
       console.error(error);
-    }
-  };
-
-  const handleGetRecord = async () => {
-    try {
-      const record = await productContract.methods
-        .getRecord(window.ethereum.selectedAddress)
-        .call();
-      setBrand(record.brand);
-      setItem(record.item);
-      setYear(record.year);
-    } catch (error) {
-      console.error(error);
+      setIsSubmitting(false);
     }
   };
 
@@ -100,15 +117,17 @@ function App() {
             onChange={(event) => setYear(event.target.value)}
           />
         </div>
-        <button onClick={handleCreateOrUpdateRecord}>
+        {/* <button onClick={handleCreateOrUpdateRecord}>
           Create/Update Record
-        </button>
-        <button onClick={handleGetRecord}>Get Record</button>
-        <div>
+        </button> */}
+        {/* <button onClick={handleGetRecord}>Get Record</button> */}
+        {/* <div>
           <p>Brand: {brand}</p>
           <p>Item: {item}</p>
           <p>Year: {year}</p>
-        </div>
+        </div> */}
+        <button onClick={handleSubmitProduct}>Send Product</button>
+        {isSubmitting && <p>Sending product to the blockchain...</p>}
       </div>
     </div>
   );

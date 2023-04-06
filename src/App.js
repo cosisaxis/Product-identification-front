@@ -42,28 +42,7 @@ function App({ onProductSent }) {
     }
   }, [web3]);
 
-  // const handleCreateOrUpdateRecord = async () => {
-  //   try {
-  //     await productContract.methods
-  //       .createOrUpdateRecord(brand, item, year, barcode)
-  //       .send({ from: window.ethereum.selectedAddress });
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
-  // const handleGetRecord = async () => {
-  //   try {
-  //     const record = await productContract.methods
-  //       .getRecord(window.ethereum.selectedAddress)
-  //       .call();
-  //     setBrand(record.brand);
-  //     setItem(record.item);
-  //     setYear(record.year);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   const handleSubmitProduct = async () => {
     setIsSubmitting(true);
@@ -83,9 +62,9 @@ function App({ onProductSent }) {
 
   return (
     <div className="App">
-      <div>
-        <h1>Product</h1>
-        <div>
+      <div className="form-container">
+        <h1 className="form-header">Barcode-X</h1>
+        <div className="form-group">
           <label>Brand:</label>
           <input
             type="text"
@@ -93,7 +72,7 @@ function App({ onProductSent }) {
             onChange={(event) => setBrand(event.target.value)}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Item:</label>
           <input
             type="text"
@@ -101,7 +80,7 @@ function App({ onProductSent }) {
             onChange={(event) => setItem(event.target.value)}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Barcode:</label>
           <input
             type="text"
@@ -109,7 +88,7 @@ function App({ onProductSent }) {
             onChange={(event) => setBarcode(event.target.value)}
           />
         </div>
-        <div>
+        <div className="form-group">
           <label>Year:</label>
           <input
             type="number"
@@ -117,16 +96,8 @@ function App({ onProductSent }) {
             onChange={(event) => setYear(event.target.value)}
           />
         </div>
-        {/* <button onClick={handleCreateOrUpdateRecord}>
-          Create/Update Record
-        </button> */}
-        {/* <button onClick={handleGetRecord}>Get Record</button> */}
-        {/* <div>
-          <p>Brand: {brand}</p>
-          <p>Item: {item}</p>
-          <p>Year: {year}</p>
-        </div> */}
-        <button onClick={handleSubmitProduct}>Send Product</button>
+        
+        <button className="form-submit" onClick={handleSubmitProduct}>Send Product</button>
         {isSubmitting && <p>Sending product to the blockchain...</p>}
       </div>
     </div>

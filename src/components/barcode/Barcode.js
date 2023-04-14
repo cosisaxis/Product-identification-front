@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Web3 from "web3";
-import { productAbi }  from "./constants";
+import { productAbi }  from "../../constants";
+import "./Barcode.css"
 
 function BarcodeForm({ onProductSent }) {
   const [web3, setWeb3] = useState(null);

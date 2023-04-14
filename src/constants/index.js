@@ -1,4 +1,4 @@
-export const productAbi =  [
+export const productAbi = [
 	{
 		"inputs": [
 			{
